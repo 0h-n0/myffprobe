@@ -1,8 +1,8 @@
-# Wav Header information command line tool (like a ffprove)
+# WAV Header Information Command Line Tool (Similar to ffprobe)
 
-Please check wav format in detail.
+This tool is designed for detailed analysis and display of WAV file header information, akin to ffprobe but specifically focused on the WAV format. For in-depth details about the WAV file format, please refer to the following link:
 
-* https://docs.fileformat.com/audio/wav/
+* WAV File Format Documentation(https://docs.fileformat.com/audio/wav/)
 
 ## wav format information
 
