@@ -21,7 +21,8 @@ This tool is designed for detailed analysis and display of WAV file header infor
 ## Usage
 
 ```bash
-$ cargo install
+$ cargo build --release
+$ cargo install --path .
 ```
 
 ```bash
