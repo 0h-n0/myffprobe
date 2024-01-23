@@ -1,5 +1,4 @@
-use core::panic;
-use std::fmt::write;
+use core::{fmt, panic};
 use std::io::{Seek, SeekFrom, Read};
 use std::fs::{File};
 use std::path::{Path};
@@ -121,10 +120,8 @@ impl Wavinfo {
         file.seek(SeekFrom::Start(0)).expect("Failed to seek");
         let mut buffer = [0; 4];
         file.read(&mut buffer).expect("Failed to read buffer");
-        let riff = String::from_utf8_lossy(&buffer);
-        if riff != "RIFF" {
-            panic!("Not a RIFF file, first 4 bytes contains {:?}", &riff);
-        }
+        let _head_chunk = String::from_utf8_lossy(&buffer);
+
         let mut buffer = [0; 4];        
         file.read(&mut buffer).expect("Failed to read buffer: chunk size");
         let chunk_size = u32::from_le_bytes(buffer);
@@ -139,10 +136,7 @@ impl Wavinfo {
         let mut buffer = [0; 4];
         file.read(&mut buffer).expect("Failed to read buffer: fmt identifier");
         let fmt_identifier = String::from_utf8_lossy(&buffer);
-        if fmt_identifier != "fmt " {
-            panic!("Not a fmt chunk, identifier is {:?}", &fmt_identifier);
-        }
-
+        
         let mut buffer = [0; 4];
         file.read(&mut buffer).expect("Failed to read buffer: fmt chunk size");
         let fmt_chunk_size = u32::from_le_bytes(buffer);
@@ -190,9 +184,6 @@ impl Wavinfo {
         let mut buffer = [0; 4];
         file.read(&mut buffer).expect("Failed to read buffer: subchunk identifier");
         let subchunk_identifier = String::from_utf8_lossy(&buffer);
-        if subchunk_identifier != "data" {
-            panic!("Not a data chunk, identifier is {:?}", &subchunk_identifier);
-        }
 
         let mut buffer = [0; 4];
         file.read(&mut buffer).expect("Failed to read buffer: subchunk size");
@@ -205,7 +196,7 @@ impl Wavinfo {
             riff: String::from("RIFF"),
             chunk_size,
             format: String::from("WAVE"),
-            fmt_identifier: String::from("fmt "),
+            fmt_identifier: fmt_identifier.into(),
             fmt_chunk_size,
             sound_format: FormatTag::from(sound_format),
             channels,
@@ -215,7 +206,7 @@ impl Wavinfo {
             bits_per_sample,
             extend_parameter_size,
             extend_parameter,
-            subchunk_identifier: String::from("data"),
+            subchunk_identifier: subchunk_identifier.into(),
             subchunk_size,
             data: buffer,
         }

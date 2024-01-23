@@ -43,3 +43,7 @@ extend parameter:      Some([32, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 0, 16, 0, 128, 0,
 subchunk identifier:   data
 subchunk size:         1767528
 ```
+
+## Log
+
+* Modified the Sound identifier to accept inputs other than 'data'.
